@@ -10,9 +10,10 @@ import com.training.victor.development.data.models.UserViewModel
 import com.training.victor.development.data.room.AppDataBase
 import com.training.victor.development.network.CoyoRepository
 import com.training.victor.development.network.ProfilesRepository
-import com.training.victor.development.network.responses.PostResp
+import com.training.victor.development.utils.myTrace
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import java.util.*
 
 class DataManager(private val profilesRepository: ProfilesRepository,
                   private val coyoRepository: CoyoRepository,
@@ -21,6 +22,8 @@ class DataManager(private val profilesRepository: ProfilesRepository,
                   private val commentDataMapper: CommentDataMapper,
                   private val appDataBase: AppDataBase) {
 
+    var dateLastRequest = Date()
+
     fun getProfilesList(): Observable<ArrayList<ProfileItem>> {
         return profilesRepository.getProfilesList().flatMap {
             Observable.just(it)
@@ -28,7 +31,33 @@ class DataManager(private val profilesRepository: ProfilesRepository,
     }
 
     fun getPostList(): Observable<List<PostViewModel>> {
-        return coyoRepository.getPost().flatMap { Observable.just(postDataMapper.mapListToPostViewModel(it)) }
+        val rightNow = Date()
+        val dateToCompare = Date(dateLastRequest.time + 5*60*1000)
+
+        return if (rightNow.after(dateToCompare)) {
+            myTrace("getPostList - cosumming API")
+            getPostListFromApi()
+        }  else {
+            myTrace("getPostList - cosumming DB")
+            appDataBase.postDao().getAllPost().toObservable().flatMap { it ->
+                if (it.isEmpty()) {
+                    myTrace("getPostList - DB empty -> from API")
+                    getPostListFromApi()
+                } else {
+                    myTrace("getPostList - DB used!")
+                    Observable.just(it.map { postDataMapper.mapDtoToPostViewModel(it) }) }
+                }
+
+        }
+    }
+
+    fun getPostListFromApi(): Observable<List<PostViewModel>> {
+        return coyoRepository.getPost().flatMap { postRespList ->
+            appDataBase.postDao().clearAllPosts()
+            postRespList.map { appDataBase.postDao().addPost(postDataMapper.mapToPostDto(it)) }
+            appDataBase.postDao().getAllPost().flatMapObservable {it ->
+                Observable.just(postDataMapper.mapDtoListToPostViewModel(it)) }
+        }
     }
 
     fun getPostUser(userId: Int): Observable<UserViewModel> {
