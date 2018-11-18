@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CoyoApp</string>
+    <string name="error_message">Some error happen: $s</string>
+    <plurals name="comments_number">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+</resources>
