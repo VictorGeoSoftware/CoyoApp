@@ -19,7 +19,7 @@ class DataManager(private val profilesRepository: ProfilesRepository,
                   private val postDataMapper: PostDataMapper,
                   private val userDataMapper: UserDataMapper,
                   private val commentDataMapper: CommentDataMapper,
-                  private val appDataBase: AppDataBase) {
+                  val appDataBase: AppDataBase) {
 
     var dateLastRequest = Date()
 
@@ -49,6 +49,7 @@ class DataManager(private val profilesRepository: ProfilesRepository,
 
     fun getPostListFromApi(): Observable<List<PostViewModel>> {
         return coyoRepository.getPost().flatMap { postRespList ->
+
             appDataBase.postDao().clearAllPosts()
             postRespList.map { appDataBase.postDao().addPost(postDataMapper.mapToPostDto(it)) }
             appDataBase.postDao().getAllPost().flatMapObservable {it ->

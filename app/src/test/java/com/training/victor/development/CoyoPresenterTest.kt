@@ -8,6 +8,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import com.training.victor.development.data.DataManager
 import com.training.victor.development.data.models.CommentViewModel
 import com.training.victor.development.data.models.PostViewModel
+import com.training.victor.development.data.room.AppDataBase
 import com.training.victor.development.network.CoyoRepository
 import com.training.victor.development.network.responses.CommentResp
 import com.training.victor.development.network.responses.UserResp
@@ -30,6 +31,7 @@ class CoyoPresenterTest: ParentUnitTest() {
     @Inject lateinit var dataManager: DataManager
     @Inject lateinit var coyoRepository: CoyoRepository
     @Mock lateinit var coyoView: CoyoPresenter.CoyoView
+    @Mock lateinit var mockDataBase: AppDataBase
 
     private lateinit var testScheduler: TestScheduler
     private lateinit var coyoPresenter: CoyoPresenter
@@ -85,6 +87,7 @@ class CoyoPresenterTest: ParentUnitTest() {
     @Test
     fun `should call to post service API in a first app launching`() {
         whenever(coyoRepository.getPost()).thenReturn(Observable.just(listOf()))
+
         coyoPresenter.getPostListForFirstTime()
         verify(coyoView, times(1)).enableProgressBar(true)
         testScheduler.triggerActions()

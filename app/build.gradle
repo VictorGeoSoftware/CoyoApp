@@ -39,6 +39,9 @@ android {
             assets.srcDirs = ['src/androidTest/assets']
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
     productFlavors {
     }
 }
