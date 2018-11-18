@@ -4,6 +4,7 @@ import com.training.victor.development.data.DataManager
 import com.training.victor.development.data.mappers.CommentDataMapper
 import com.training.victor.development.data.mappers.PostDataMapper
 import com.training.victor.development.data.mappers.UserDataMapper
+import com.training.victor.development.data.room.AppDataBase
 import com.training.victor.development.network.CoyoRepository
 import com.training.victor.development.network.ProfilesRepository
 import dagger.Module
@@ -25,12 +26,15 @@ open class DataManagerModule {
     @Singleton
     fun provideCommentDataMapper(): CommentDataMapper = CommentDataMapper()
 
+
     @Provides
     @Singleton
     open fun provideDataManager(profileRepository: ProfilesRepository,
                                 coyoRepository: CoyoRepository,
                                 postDataMapper: PostDataMapper,
                                 userDataMapper: UserDataMapper,
-                                commentDataMapper: CommentDataMapper):
-            DataManager = DataManager(profileRepository, coyoRepository, postDataMapper, userDataMapper, commentDataMapper)
+                                commentDataMapper: CommentDataMapper,
+                                appDataBase: AppDataBase):
+            DataManager = DataManager(profileRepository, coyoRepository, postDataMapper, userDataMapper,
+        commentDataMapper, appDataBase)
 }

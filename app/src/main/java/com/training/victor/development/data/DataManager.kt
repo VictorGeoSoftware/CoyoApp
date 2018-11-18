@@ -7,6 +7,7 @@ import com.training.victor.development.data.models.CommentViewModel
 import com.training.victor.development.data.models.PostViewModel
 import com.training.victor.development.data.models.ProfileItem
 import com.training.victor.development.data.models.UserViewModel
+import com.training.victor.development.data.room.AppDataBase
 import com.training.victor.development.network.CoyoRepository
 import com.training.victor.development.network.ProfilesRepository
 import com.training.victor.development.network.responses.PostResp
@@ -17,7 +18,8 @@ class DataManager(private val profilesRepository: ProfilesRepository,
                   private val coyoRepository: CoyoRepository,
                   private val postDataMapper: PostDataMapper,
                   private val userDataMapper: UserDataMapper,
-                  private val commentDataMapper: CommentDataMapper) {
+                  private val commentDataMapper: CommentDataMapper,
+                  private val appDataBase: AppDataBase) {
 
     fun getProfilesList(): Observable<ArrayList<ProfileItem>> {
         return profilesRepository.getProfilesList().flatMap {
