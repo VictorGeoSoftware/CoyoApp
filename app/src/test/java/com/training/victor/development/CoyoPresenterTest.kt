@@ -83,6 +83,17 @@ class CoyoPresenterTest: ParentUnitTest() {
 
     // --------------------------------------------- TESTING CASES ---------------------------------------------
     @Test
+    fun `should call to post service API in a first app launching`() {
+        whenever(coyoRepository.getPost()).thenReturn(Observable.just(listOf()))
+        coyoPresenter.getPostListForFirstTime()
+        verify(coyoView, times(1)).enableProgressBar(true)
+        testScheduler.triggerActions()
+
+        verify(coyoView, times(1)).enableProgressBar(false)
+        verify(coyoView, times(1)).onPostListReceived(anyList<PostViewModel>())
+    }
+
+    @Test
     fun `should call to post service and retrieve a list of post`() {
         whenever(coyoRepository.getPost()).thenReturn(Observable.just(listOf()))
         coyoPresenter.getPostList()

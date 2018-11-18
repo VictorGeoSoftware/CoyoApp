@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity(), CoyoPresenter.CoyoView, PostAdapter.On
         lstPost.adapter = postAdapter
 
         coyoPresenter.view = this
+        coyoPresenter.getPostListForFirstTime()
+    }
+
+    override fun onResume() {
+        super.onResume()
         coyoPresenter.getPostList()
     }
 

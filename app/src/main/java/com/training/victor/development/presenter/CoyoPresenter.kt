@@ -4,6 +4,7 @@ import com.training.victor.development.data.DataManager
 import com.training.victor.development.data.models.CommentViewModel
 import com.training.victor.development.data.models.PostViewModel
 import com.training.victor.development.data.models.UserViewModel
+import com.training.victor.development.utils.myTrace
 import io.reactivex.Scheduler
 import javax.inject.Inject
 
@@ -19,6 +20,21 @@ class CoyoPresenter @Inject constructor(private val androidSchedulers: Scheduler
         fun onPostDetailedInfoError(message: String)
     }
 
+
+    fun getPostListForFirstTime() {
+        view?.enableProgressBar(true)
+
+        disposable.add(dataManager.getPostListFromApi()
+            .observeOn(androidSchedulers)
+            .subscribeOn(subscriberSchedulers)
+            .subscribe({
+                view?.enableProgressBar(false)
+                view?.onPostListReceived(it)
+            }, {
+                view?.enableProgressBar(false)
+                view?.onPostListError(it.localizedMessage)
+            }))
+    }
 
     fun getPostList() {
         view?.enableProgressBar(true)
@@ -45,6 +61,8 @@ class CoyoPresenter @Inject constructor(private val androidSchedulers: Scheduler
                 view?.enableProgressBar(false)
                 view?.onPostDetailedInfoReceived(it.first, it.second)
             }, {
+                myTrace("getPostDetailedInfo error :: $it")
+                it.printStackTrace()
                 view?.enableProgressBar(false)
                 view?.onPostDetailedInfoError(it.localizedMessage)
             }))
