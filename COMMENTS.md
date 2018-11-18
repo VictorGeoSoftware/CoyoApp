@@ -31,4 +31,8 @@ Things to be improved
     
 This app accomplish with all requirements, but for persistence criteria, I have implemented
 a very simple logic, which decides whether call to DB or API, depending on the time of the last request.
-If this is older than 5 minutes, API is called, otherwise, DB is requested.  
+If this is older than 5 minutes, API is called, otherwise, DB is requested.
+
+Unfortunately, the fact of including Room AppDataBase class into DataManager constructor broked up all my test classes,
+because Room needs from a real Context for be instantiated. So if you try to launch some test, this always will fail.
+I should have considered before this issue.   
