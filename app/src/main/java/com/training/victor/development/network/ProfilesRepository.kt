@@ -5,7 +5,6 @@ import com.training.victor.development.network.responses.ProfileDetailResp
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Headers
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ProfilesRepository {

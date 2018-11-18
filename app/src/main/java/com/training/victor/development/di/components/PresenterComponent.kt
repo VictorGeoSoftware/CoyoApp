@@ -1,9 +1,9 @@
 package com.training.victor.development.di.components
 
-import com.training.victor.development.ui.MainActivity
-import com.training.victor.development.ui.PostDetailActivity
 import com.training.victor.development.di.modules.PresenterModule
 import com.training.victor.development.di.scopes.ViewScope
+import com.training.victor.development.ui.MainActivity
+import com.training.victor.development.ui.PostDetailActivity
 import dagger.Subcomponent
 
 /**

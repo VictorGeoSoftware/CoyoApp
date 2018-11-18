@@ -17,7 +17,6 @@ import cucumber.api.java.en.When
 import org.hamcrest.Matchers.greaterThan
 import org.junit.Assert
 import org.junit.Rule
-import java.util.*
 
 class FirstLaunchTest {
     @Rule val mainActivityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)

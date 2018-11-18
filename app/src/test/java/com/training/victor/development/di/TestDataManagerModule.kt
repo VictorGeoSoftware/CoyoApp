@@ -8,7 +8,6 @@ import com.training.victor.development.data.room.AppDataBase
 import com.training.victor.development.di.modules.DataManagerModule
 import com.training.victor.development.network.CoyoRepository
 import com.training.victor.development.network.ProfilesRepository
-import org.mockito.Mockito
 
 class TestDataManagerModule: DataManagerModule() {
 

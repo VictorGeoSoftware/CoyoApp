@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.training.victor.development.R
 import com.training.victor.development.data.models.PostViewModel
-import com.training.victor.development.network.responses.PostResp
 import com.training.victor.development.utils.inflate
 import kotlinx.android.synthetic.main.adapter_profile_item.view.*
 

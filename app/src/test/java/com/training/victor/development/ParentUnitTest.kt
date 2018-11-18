@@ -4,7 +4,6 @@ import com.training.victor.development.di.TestAppModule
 import com.training.victor.development.di.TestDataManagerModule
 import com.training.victor.development.di.TestNetworkModule
 import com.training.victor.development.di.components.AppComponent
-import com.training.victor.development.di.components.NetworkComponent
 import com.training.victor.development.di.modules.AppModule
 import com.training.victor.development.di.modules.DataManagerModule
 import com.training.victor.development.di.modules.NetworkModule
@@ -19,7 +18,6 @@ abstract class ParentUnitTest {
     @Singleton
     @Component(modules = [AppModule::class, NetworkModule::class, DataManagerModule::class])
     interface TestAppComponent : AppComponent {
-        fun inject(target: ProfilesPresenterTest)
         fun inject(target: CoyoPresenterTest)
     }
 
